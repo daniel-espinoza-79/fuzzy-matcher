@@ -118,7 +118,7 @@ public class PreProcessFunction<T>{
      *
      * @return the function to perform usPhoneNormalization
      */
-    public static Function<String, String> usPhoneNormalization() {
+    public static Function<String, String> usPhoneNormalization(){
         return str -> numericValue().andThen(s -> (s.length() == 10) ? "1" + s : s).apply(str);
     }
 
@@ -140,6 +140,22 @@ public class PreProcessFunction<T>{
 
         };
     }
+    private static Function<String, String> removeSpecialPathChar (){
+        return (obj)-> obj.replaceAll("[^a-z0-9/._-]", "");
+    }
+    private static Function<String, String> removeSpaces (){
+        return (obj) -> obj.replaceAll("\\s+", "");
+    }
+
+
+    public static Function<String, String> pathPreprocessing(){
+        return (obj) -> 
+                toLowerCase()
+                    .andThen(removeSpecialPathChar())
+                    .andThen(trim())
+                    .andThen(removeSpaces())
+                    .apply(obj);
+    } 
 
     /**
      * Does nothing, used for already preprocessed values

@@ -22,7 +22,8 @@ public enum ElementType {
     PHONE,
     NUMBER,
     DATE,
-    AGE;
+    AGE,
+    PATH;
 
     protected Function getPreProcessFunction() {
         switch (this) {
@@ -39,7 +40,9 @@ public enum ElementType {
             case NUMBER:
             case AGE:
                 return numberPreprocessing();
-            default:
+            case PATH:
+                return pathPreprocessing();
+                default:
                 return none();
         }
     }
@@ -56,6 +59,8 @@ public enum ElementType {
                 return triGramTokenizer();
             case PHONE:
                 return decaGramTokenizer();
+            case PATH:
+                return pathTokenizer();
             default:
                 return valueTokenizer();
         }

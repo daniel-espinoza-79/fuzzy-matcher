@@ -26,6 +26,11 @@ public class TokenizerFunction {
                 .map(token -> new Token<String>(token, element));
     }
 
+    public static Function<Element<String> , Stream<Token<String>>> pathTokenizer (){
+        return (element) -> Arrays.stream(element.getPreProcessedValue().split("/"))
+                .map(token-> new Token<String>(token, element));
+    }
+
     public static Function<Element<String>, Stream<Token<String>>> wordSoundexEncodeTokenizer() {
         return (element) -> Arrays.stream(element.getPreProcessedValue().toString().split("\\s+"))
                 .map(val -> {
@@ -66,4 +71,6 @@ public class TokenizerFunction {
     public static Function<Element<String>, Stream<Token<String>>> chainTokenizers(Function<Element<String>, Stream<Token<String>>>... tokenizers) {
         return element -> Arrays.stream(tokenizers).flatMap(fun -> fun.apply(element));
     }
+
+    
 }
